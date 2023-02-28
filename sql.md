@@ -28,7 +28,8 @@ Romashka | Lesya
 (5 строк)
 
 skypro=# SELECT * FROM hw_sql
-skypro-# WHERE age>30 AND age<50;
+skypro-# WHERE age
+skypro-# BETWEEN 30 AND 50;
 id | first_name | last_name | gender | age
 ----+------------+-----------+--------+-----
 6 | Romashka   | Lesya     | F      |  42
@@ -85,14 +86,14 @@ id | first_name | last_name | gender | age
 skypro=# UPDATE hw_sql SET last_name='IRA' where id=4;
 UPDATE 1
 skypro=# SELECT last_name AS Имя,
-skypro-# COUNT(last_name) AS Cуммарный_возраст
+skypro-# SUM(age) Cуммарный_возраст
 skypro-# FROM hw_sql
 skypro-# GROUP BY Имя;
 Имя  | cуммарный_возраст
 -------+-------------------
-Lesya |                 1
-DIMA  |                 2
-IRA   |                 2
+Lesya |                42
+DIMA  |                48
+IRA   |               122
 (3 строки)
 
 skypro=# SELECT  last_name, age
@@ -106,15 +107,14 @@ last_name | age
 DIMA      |  23
 (1 строка)
 
-skypro=# SELECT last_name AS Имя, age AS Самый_максимальный_возраст
-skypro-#
+skypro=# SELECT last_name AS Имя,
+skypro-# Max(age)  Самый_максимальный_возраст
 skypro-# FROM hw_sql
-skypro-# WHERE NOT last_name='Lesya'
-skypro-# ORDER BY Имя, Самый_максимальный_возраст ASC;
+skypro-# GROUP BY Имя
+skypro-# ORDER BY Самый_максимальный_возраст;
 Имя  | Самый_максимальный_возраст
-------+----------------------------
-DIMA |                         23
-DIMA |                         25
-IRA  |                         55
-IRA  |                         67
-(4 строки)
+-------+----------------------------
+DIMA  |                         25
+Lesya |                         42
+IRA   |                         67
+(3 строки)
